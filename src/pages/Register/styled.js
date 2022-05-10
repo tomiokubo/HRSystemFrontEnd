@@ -1,5 +1,27 @@
 import styled from 'styled-components';
+import * as colors from '../../config/colors';
 
-export const Title = styled.h1`
-  background: red;
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  input {
+    height: 40px;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    padding: o 10px;
+    border-radius: 4px;
+    margin-top: 5px;
+
+    &:focus {
+      border: 1px solid ${colors.primaryColor};
+    }
+  }
 `;

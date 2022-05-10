@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome, FaSignInAlt, FaUserAlt } from 'react-icons/fa';
+import { FaHome, FaUserAlt, FaSignInAlt } from 'react-icons/fa';
 import { Nav } from './styled';
 import { Link } from 'react-router-dom';
 

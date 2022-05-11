@@ -7,17 +7,24 @@ import { Container } from '../../styles/GlobalStyle';
 import { WorkerContainer, ProfilePicture } from './styled';
 import axios from '../../services/axios';
 
+import Loading from '../../components/Loading';
+
 export default function Workers() {
   const [workers, setWorkers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   React.useEffect(() => {
     async function getData() {
+      setIsLoading(true);
       const response = await axios.get('/workers');
       setWorkers(response.data);
+      setIsLoading(false);
     }
     getData();
   }, []);
   return (
     <Container>
+      <Loading isLoading={isLoading} />
       <h1>Workers</h1>
       <WorkerContainer>
         {workers.map((worker) => (

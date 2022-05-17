@@ -3,25 +3,28 @@ import { get } from 'lodash';
 import { isEmail, isInt, isFloat } from 'validator';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { FaUserCircle, FaEdit } from 'react-icons/fa';
 
 import { Container } from '../../styles/GlobalStyle';
-import { Form } from './styled';
+import { Form, ProfilePicture, Title } from './styled';
 import { toast } from 'react-toastify';
 import Loading from '../../components/Loading';
 import axios from '../../services/axios';
 import history from '../../services/history';
 import * as actions from '../../store/modules/auth/actions';
+import { Link } from 'react-router-dom';
 
 export default function Worker({ match }) {
   const dispatch = useDispatch();
 
-  const id = get(match, 'params.id', 0);
+  const id = get(match, 'params.id', '');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
+  const [picture, setPicture] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -30,7 +33,9 @@ export default function Worker({ match }) {
       try {
         setIsLoading(true);
         const { data } = await axios.get(`/workers/${id}`);
-        // const picture = get(data, 'Pictures[0].url', '');
+        const Picture = get(data, 'Pictures[0].url', '');
+
+        setPicture(Picture);
 
         setFirstName(data.first_name);
         setLastName(data.last_name);
@@ -129,7 +134,21 @@ export default function Worker({ match }) {
     <Container>
       <Loading isLoading={isLoading} />
 
-      <h1>{id ? 'Edit worker' : 'New worker'}</h1>
+      <Title>{id ? 'Edit worker' : 'New worker'}</Title>
+
+      {id && (
+        <ProfilePicture>
+          {picture ? (
+            <img crossOrigin="" src={picture} alt={firstName} />
+          ) : (
+            <FaUserCircle size={180} />
+          )}
+          <Link to={`/pictures/${id}`}>
+            <FaEdit size={24} />
+          </Link>
+        </ProfilePicture>
+      )}
+
       <Form onSubmit={handleSubmit}>
         <input
           type="text"
